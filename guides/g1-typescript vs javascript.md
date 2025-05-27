@@ -121,6 +121,7 @@ export interface Product {
 // services/productService.ts
 import { Product } from '../types/product';
 
+
 export function createProduct(product: Product): Product & { createdAt: Date } {
   if (!product.title || product.price <= 0) {
     throw new Error('Invalid product data');
