@@ -1,5 +1,5 @@
 // Scenario : Generate a scenario to randomly genertate a number and pass this function into another function to display the number in descending order.
-export function generateRandomNumber() {
+function generateRandomNumber() {
     return Math.floor(Math.random() * 100) + 50; // Generates a number between 50 and 149
 }   
 
