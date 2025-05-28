@@ -1,9 +1,9 @@
 console.clear();
-function printJFeatures() {
+function printJSFeatures() {
     console.log("Functions are first class citizens");
 };
 
-printJFeatures();
+printJSFeatures();
 
 function sum(num1, num2) {
     console.log(num1 + num2);
