@@ -1,4 +1,4 @@
-## Hi there 👋
+Welcome!
 
 <!--
 **SCHBLR26MAY2025-HUB/SCHBLR26MAY2025-HUB** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
