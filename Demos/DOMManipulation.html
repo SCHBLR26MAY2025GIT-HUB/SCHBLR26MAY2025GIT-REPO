@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>DOM Manipulation Example</h1>
+    <div id="content">
+        <p>This is a simple example of DOM manipulation.</p>
+    </div>
+    <button id="changeContent">Change Content</button>
+
+    <script>
+        welcome();
+        function welcome() {
+            alert('Welcome to the DOM Manipulation Example!');
+        };
+
+    </script>
+
+    <script>
+
+        document.getElementById('changeContent').addEventListener('click', function () {
+            document.getElementById('content').innerHTML = '<p>The content has been changed!</p>';
+        });
+    </script>
+</body>
+
+</html>
