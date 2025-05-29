@@ -12,7 +12,7 @@ root.render(
   // It activates additional checks and warnings for its descendants.
   <React.StrictMode>
     <App />
-   <Thankyou/>
+   {/* <Thankyou/> */}
   </React.StrictMode>
 );
 

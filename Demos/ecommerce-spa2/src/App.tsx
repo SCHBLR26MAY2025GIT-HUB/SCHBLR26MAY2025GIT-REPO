@@ -1,5 +1,6 @@
 import React from "react";
 import { Product } from "./models";
+import ProductCard from "./components/ProductCard";
 // diff between let, var and const
 // let and var are used to declare variables, but let has block scope while var has function scope.
 // const is used to declare constants, which cannot be reassigned.
@@ -8,27 +9,38 @@ const products: Product[] = [
   { id: 1, name: "Sneakers", price: 89.99, onSale: true, tags: ["footwear", "sports"] },
   { id: 2, name: "Hat", price: 19.99, onSale: false }
 ];
-
-
 // Products
 // Sneakers - $89.99 (On Sale!)
 // Hat - $19.99
-  const App: React.FC = () => {
-    return (
-      <div>
-        <h1>Products</h1>
-        <ul>
-          {products.map(p => (
-            <li key={p.id}>
-              {p.name} - ${p.price.toFixed(2)} {p.onSale && <span>(On Sale!)</span>}
-            </li>
-          ))}
-        </ul>
-      </div>
-    );
+const App: React.FC = () => {
+  // The scope of handleAddToCart is limited to the App component.
+  const handleAddToCart = (product: Product) => {
+    alert(`Added ${product.name} to cart!`);
   };
+  // return (
+  //   <div>
+  //     <h1>Products</h1>
+  //     <ul>
+  //       {products.map(p => (
+  //         <li key={p.id}>
+  //           {p.name} - ${p.price.toFixed(2)} {p.onSale && <span>(On Sale!)</span>}
+  //         </li>
+  //       ))}
+  //     </ul>
+  //   </div>
+  // );
+    return (
+    <div style={{ padding: 20 }}>
+      <h1>Products</h1>
+      <div style={{ display: 'flex', gap: 20 }}>
+        {products.map(product => (
+          <ProductCard key={product.id} product={product} onAddToCart={handleAddToCart} />
+        ))}
+      </div>
+    </div>
+  );
+};
 export default App;
-
 
 // Default export is used to export a single value from a module, which can be imported without using curly braces.
 // Named exports are used to export multiple values from a module, which must be imported using curly braces.
@@ -47,6 +59,6 @@ export const Thankyou: React.FC = () => {
       <h1>Thank you!</h1>
     </div>
   );
-}; 
+};
 
 // export { Thankyou };
