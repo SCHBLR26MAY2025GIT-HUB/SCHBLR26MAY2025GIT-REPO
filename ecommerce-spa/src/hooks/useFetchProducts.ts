@@ -84,6 +84,7 @@ export const useFetchProducts = () => {
   };
 
   // Fetch products initially on mount
+  // It is important to call this function to load the products when the component mounts.
   useEffect(() => {
     fetchProducts();
   }, []);
