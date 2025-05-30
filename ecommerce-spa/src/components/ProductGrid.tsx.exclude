@@ -1,0 +1,184 @@
+// import React from 'react';
+// import {
+//   Grid,
+//   GridColumn,
+//   GridSortChangeEvent,
+//   GridPageChangeEvent,
+//   GridCellProps,
+// } from '@progress/kendo-react-grid';
+// import { process } from '@progress/kendo-data-query';
+// import { Product } from '../models/product';
+
+// const ColumnAny = GridColumn as any;
+
+// interface ProductGridProps {
+//   products: Product[];
+//   onAddToCart: (product: Product) => void;
+// }
+
+// const PriceCell = (props: GridCellProps) => (
+//   <td>{`$${props.dataItem.price.toFixed(2)}`}</td>
+// );
+
+// const OnSaleCell = (props: GridCellProps) => (
+//   <td>{props.dataItem.onSale ? 'Yes' : 'No'}</td>
+// );
+
+// const AddToCartCell = (props: GridCellProps & { onAddToCart: (product: Product) => void }) => {
+//   const product = props.dataItem;
+//   const onAddToCart = props.onAddToCart;
+//   return (
+//     <td>
+//       <button
+//         onClick={() => onAddToCart(product)}
+//         style={{
+//           padding: '4px 8px',
+//           borderRadius: 4,
+//           border: 'none',
+//           backgroundColor: '#007bff',
+//           color: 'white',
+//           cursor: 'pointer',
+//         }}
+//       >
+//         Add
+//       </button>
+//     </td>
+//   );
+// };
+
+// const ProductGrid: React.FC<ProductGridProps> = ({ products, onAddToCart }) => {
+//   const [gridData, setGridData] = React.useState(products.slice(0, 5));
+//   const [skip, setSkip] = React.useState(0);
+//   const [sort, setSort] = React.useState<any[]>([]);
+
+//   const dataStateChange = (event: any) => {
+//     const newDataState = {
+//       skip: event.page.skip,
+//       take: event.page.take,
+//       sort: event.sort,
+//     };
+//     const processedData = process(products, newDataState);
+//     setGridData(processedData.data);
+//     setSkip(newDataState.skip);
+//     setSort(newDataState.sort);
+//   };
+
+//   const sortChange = (event: GridSortChangeEvent) => {
+//     dataStateChange({ page: { skip, take: 5 }, sort: event.sort });
+//   };
+
+//   const pageChange = (event: GridPageChangeEvent) => {
+//     dataStateChange({ page: event.page, sort });
+//   };
+
+//   return (
+//     <Grid
+//       data={gridData}
+//       skip={skip}
+//       take={5}
+//       pageable={true}
+//       sortable={true}
+//       onPageChange={pageChange}
+//       onSortChange={sortChange}
+//       total={products.length}
+//       style={{ height: 400 }}
+//     >
+//       <ColumnAny field="name" title="Product Name" />
+//       <ColumnAny field="price" title="Price" cells={PriceCell} />
+//       <ColumnAny title="On Sale" cells={OnSaleCell} />
+//       <ColumnAny
+//         title="Add to Cart"
+//         cells={(props: any) => <AddToCartCell {...props} onAddToCart={onAddToCart} />}
+//       />
+//     </Grid>
+//   );
+// };
+
+// export default ProductGrid;
+
+// Iteration 2 : Product Grid with Kendo UI
+import React, { FC, useMemo } from 'react';
+import {
+  Grid,
+  GridColumn as Column,
+  GridSortChangeEvent,
+  GridPageChangeEvent,
+  GridCellProps,
+} from '@progress/kendo-react-grid';
+import { process } from '@progress/kendo-data-query';
+import { Product } from '../models/product';
+
+import OnSaleCell from './OnSaleCell';
+import AddToCartCell from './AddToCartCell';
+
+interface ProductGridProps {
+  products: Product[];
+  onAddToCart: (product: Product) => void;
+  cartItems: Product[];
+}
+
+const pageSize = 5;
+
+const PriceCell: FC<GridCellProps> = (props) => (
+  <td>{`$${props.dataItem.price.toFixed(2)}`}</td>
+);
+
+const ColumnAny = Column as any; // Cast to any to avoid TS issues with cells prop
+
+const ProductGrid: FC<ProductGridProps> = ({ products, onAddToCart, cartItems }) => {
+  const [gridData, setGridData] = React.useState(products.slice(0, pageSize));
+  const [skip, setSkip] = React.useState(0);
+  const [sort, setSort] = React.useState<any[]>([]);
+
+  const dataStateChange = (event: any) => {
+    const newDataState = {
+      skip: event.page.skip,
+      take: event.page.take,
+      sort: event.sort,
+    };
+    const processedData = process(products, newDataState);
+    setGridData(processedData.data);
+    setSkip(newDataState.skip);
+    setSort(newDataState.sort);
+  };
+
+  const sortChange = (event: GridSortChangeEvent) => {
+    dataStateChange({ page: { skip, take: pageSize }, sort: event.sort });
+  };
+
+  const pageChange = (event: GridPageChangeEvent) => {
+    dataStateChange({ page: event.page, sort });
+  };
+
+  const cartProductIds = useMemo(() => new Set(cartItems.map(item => item.id)), [cartItems]);
+
+  return (
+    <Grid
+      data={gridData}
+      skip={skip}
+      take={pageSize}
+      pageable
+      sortable
+      onPageChange={pageChange}
+      onSortChange={sortChange}
+      total={products.length}
+      style={{ height: 400 }}
+    >
+      <ColumnAny field="name" title="Product Name" />
+      <ColumnAny field="price" title="Price" cells={PriceCell} />
+      <ColumnAny title="On Sale" cells={OnSaleCell} />
+      <ColumnAny
+        title="Add to Cart"
+        cells={(props: any) => (
+          <AddToCartCell
+            {...props}
+            onAddToCart={onAddToCart}
+            isInCart={cartProductIds.has(props.dataItem.id)}
+          />
+        )}
+      />
+    </Grid>
+  );
+};
+
+export default ProductGrid;

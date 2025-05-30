@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- insert a button -->
+    <button id="saveButton">Save to Local Storage</button>
+    <button id="loadButton">Load from Local Storage</button>
+    <!-- insert a textbox -->
+    <input type="text" id="textInput" placeholder="Type something here...">
+    <!-- read and store -->
+    <script>
+        document.getElementById('saveButton').addEventListener('click', function() {
+            const textInput = document.getElementById('textInput').value;
+            localStorage.setItem('savedText', textInput);
+            alert('Text saved to Local Storage!');
+        });
+
+        document.getElementById('loadButton').addEventListener('click', function() {
+            const savedText = localStorage.getItem('savedText');
+            if (savedText) {
+                document.getElementById('textInput').value = savedText;
+                alert('Text loaded from Local Storage!');
+            } else {
+                alert('No text found in Local Storage.');
+            }
+        });
+        </script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+import React from 'react';
+import { useProducts } from '../hooks/useProducts';
+import { useCart } from '../contexts/CartContext';
+// import ProductGrid from '../components/ProductGrid';
+
+const ProductsGridPage: React.FC = () => {
+  const { products } = useProducts();
+  const { cart, addToCart } = useCart();
+
+  return (
+    <div style={{ padding: 20 }}>
+      <h2>Products Grid (Kendo UI)</h2>
+      <ProductGrid products={products} onAddToCart={addToCart} cartItems={cart} />
+    </div>
+  );
+};
+
+export default ProductsGridPage;

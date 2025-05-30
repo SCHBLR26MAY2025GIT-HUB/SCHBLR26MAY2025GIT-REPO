@@ -1,0 +1,6 @@
+{
+  "products": [
+    { "id": 1, "name": "Sneakers", "price": 89.99, "onSale": true, "tags": ["footwear", "sports"] },
+    { "id": 2, "name": "Hat!", "price": 19.99, "onSale": false }
+  ]
+}
